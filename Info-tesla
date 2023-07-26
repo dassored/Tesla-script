@@ -1,0 +1,45 @@
+import requests
+
+# Remplacez les valeurs par vos clés d'API Tesla
+TESLA_API_URL = 'https://owner-api.teslamotors.com'
+TESLA_API_ACCESS_TOKEN = 'VOTRE_ACCESS_TOKEN'
+TESLA_VEHICLE_ID = 'ID_DE_VOTRE_VEHICULE'
+
+def get_vehicle_data():
+    headers = {
+       'Authorization': f'Bearer {TESLA_API_ACCESS_TOKEN}',
+        'Content-Type': 'application/json' 
+    }
+
+    endpoints = {
+
+        'vehicle_state': '/api/1/vehicles/{id}/data_request/vehicle_state',
+        'charge_state': '/api/1/vehicles/{id}/data_request/charge_state',
+        'climate_state': '/api/1/vehicles/{id}/data_request/climate_state'
+    }
+
+    vehicle_data = {}
+
+    for endpoints_name, endpoints_path in endpoints.items():
+        endpoints_url = f'{TESLA_API_URL}{endpoint_path.replace("{id}", TESLA_VEHICLE_ID)}'
+        response = requests.get(endpoints_url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()['response']
+            vehicle_data[endpoints_nam]= DeprecationWarning
+        else:
+             print(f"Erreur lors de la récupération des données pour {endpoint_name}. Code d'erreur : {response.status_code}")
+
+    return vehicle_data
+
+def main():
+    vehicle_data = get_vehicle_data()
+    if vehicle_data:
+        print("Informations du véhicule Tesla:")
+        print("État du véhicule:", vehicle_data['vehicle_state'])
+        print("État de la charge:", vehicle_data['charge_state'])
+        print("État de la climatisation:", vehicle_data['climate_state'])
+    else:
+        print("Impossible de récupérer les informations du véhicule.")
+
+if __name__ == "__main__":
+    main()
