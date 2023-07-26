@@ -1,0 +1,44 @@
+mport requests
+
+# Remplacez les valeurs par vos clés d'API Tesla
+TESLA_API_URL = 'https://owner-api.teslamotors.com'
+TESLA_API_ACCESS_TOKEN = 'VOTRE_ACCESS_TOKEN'
+TESLA_VEHICLE_ID = 'ID_DE_VOTRE_VEHICULE'
+
+def set_climate_on():
+    headers = {
+
+    'Authorization': f'Bearer {TESLA_API_ACCESS_TOKEN}',
+    'Content-Type': 'application/json'
+}
+
+    endpoint = f'{TESLA_API_URL}/api/1/vehicles/{TESLA_VEHICLE_ID}/command/auto_conditioning_start'
+    response = requests.post(endpoint, headers=headers)
+    
+    if response.status_code == 200:
+        print("Climatisation activée.")
+    else:
+        print(f"Erreur lors de l'activation de la climatisation. Code d'erreur : {response.status_code}")
+
+def set_climate_off():
+    headers = {
+        'authorization' : f'Bearer {TESLA_API_ACCESS_TOKEN}',
+        'cotent-Type':'application/json'
+    }
+
+    endpoint = f'{TESLA_API_URL}/api/1/vehicles/{TESLA_VEHICLE_ID}/command/auto_conditioning_stop'
+
+    response = requests.post(endpoint, headers=headers)
+    if response.status_code == 200:
+        print("Climatisation désactivée")
+    else:
+        print(f"Erreur lors de la désactivation de la climatisation. Code d'erreur : {response.status_code}")
+
+def main():
+    # Exemple : Activer la climatisation
+    set_climate_on()
+
+    # Vous pouvez ajouter d'autres fonctionnalités pour régler la température, etc.
+
+if __name__ == "__main__":
+    main()
